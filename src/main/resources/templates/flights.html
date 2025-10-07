@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>フライト時刻表</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/images/sky.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 20px;
+            color: #fff; /* 文字色を白にして見やすく */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5); 
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.6); /* 半透明で背景を覆う */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.7);
+            font-weight: bold;
+        }
+
+        td {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .back-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 120px;
+        }
+
+        .back-button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="'出発空港: ' + ${param.airport}"></h1>
+    <table border="1">
+        <tr>
+            <th>便名<br>Flight No.</th>
+            <th>航空会社<br>Airlines</th>
+            <th>出発空港<br>From</th>
+            <th>出発予定時刻<br>Departure time</th>
+            <th>到着空港<br>To</th>
+            <th>到着予定時刻<br>Arrival time</th>
+        </tr>
+        <tr th:each="f : ${flights}">
+            <td th:text="${f.flight.iataCode}"></td>
+            <td>
+                <span th:text="${f.airline.name}"></span>
+                <img th:src="@{'/images/logos/' + ${f.airline.logo}}" 
+                     alt="logo"
+                     style="height:30px; margin-left:8px; vertical-align:middle;">
+            </td>
+            <td th:text="${f.departure.airport}"></td>
+            <td th:text="${#temporals.format(f.departure.scheduled, 'HH:mm')}"></td>
+            <td th:text="${f.arrival.airport}"></td>
+            <td th:text="${#temporals.format(f.arrival.scheduled, 'HH:mm')}"></td>
+        </tr>
+    </table>
+    <a href="/" class="back-button">戻る<br>Back</a>
+</body>
+</html>
