@@ -40,7 +40,7 @@ private final String API_KEY = "取得したAPIキー";
 
 ### 3. アプリを起動
 ```bash
-./mvnw spring-boot:run
+mvnw spring-boot:run
 ```
 
 ### 4. ブラウザでアクセス
