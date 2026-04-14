@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+// フライト情報を表示するコントローラー
 @Controller
 public class FlightApiController {
     private final FlightApiService flightApiService;
@@ -17,6 +18,7 @@ public class FlightApiController {
         this.flightApiService = flightApiService;
     }
 
+    // フライト情報を取得して表示するエンドポイント
     @GetMapping("/flights")
     public String getFlights(@RequestParam String airport, Model model) {
         // 1. APIからレスポンス全体を取得
@@ -27,9 +29,10 @@ public class FlightApiController {
 
         // 航空会社名 → ロゴファイル名 のマッピング
         for (FlightApiResponse.FlightData f : flights) {
-            String airline = f.getAirline().getName();
+            String airline = f.getAirline().getName(); // 航空会社名を取得
             String logoFile = "default.png"; // デフォルト
 
+            // 航空会社名に応じてロゴファイル名を設定
             if ("Japan Airlines".equalsIgnoreCase(airline)) {
                 logoFile = "JAL-logo.jpg";
             } else if ("ANA".equalsIgnoreCase(airline) || "All Nippon Airways".equalsIgnoreCase(airline)) {
@@ -142,10 +145,10 @@ public class FlightApiController {
             	logoFile = "AirHongkong-logo.jpg";
             } 
 
-            f.getAirline().setLogo(logoFile);
+            f.getAirline().setLogo(logoFile); // ロゴファイル名をセット
         }
 
-        model.addAttribute("flights", flights);
+        model.addAttribute("flights", flights); // フライトデータをモデルに追加
         return "flights";
     }
 }
